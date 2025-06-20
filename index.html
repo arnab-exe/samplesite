@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Close All Tabs Popup</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .demo-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .demo-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .demo-button:hover {
+            background: #0056CC;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        /* Modal Dialog */
+        .modal-dialog {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            min-width: 400px;
+            max-width: 500px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+            animation: modalSlideIn 0.2s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1d1d1f;
+            margin: 0 0 16px 0;
+        }
+
+        .modal-message {
+            font-size: 14px;
+            color: #424245;
+            margin: 0 0 20px 0;
+            line-height: 1.4;
+        }
+
+        .tabs-count {
+            font-weight: 600;
+            color: #1d1d1f;
+        }
+
+        /* Checkbox Container */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0 24px 0;
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #c6c6c8;
+            border-radius: 4px;
+            margin-right: 8px;
+            position: relative;
+            background: white;
+            cursor: pointer;
+        }
+
+        .checkbox.checked {
+            background: #007AFF;
+            border-color: #007AFF;
+        }
+
+        .checkbox.checked::after {
+            content: '✓';
+            position: absolute;
+            top: -2px;
+            left: 2px;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .checkbox-label {
+            font-size: 14px;
+            color: #424245;
+            cursor: pointer;
+        }
+
+        /* Button Container */
+        .button-container {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .modal-button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            min-width: 80px;
+            transition: all 0.2s ease;
+        }
+
+        .primary-button {
+            background: #007AFF;
+            color: white;
+        }
+
+        .primary-button:hover {
+            background: #0056CC;
+        }
+
+        .secondary-button {
+            background: #f2f2f7;
+            color: #007AFF;
+            border: 1px solid #d1d1d6;
+        }
+
+        .secondary-button:hover {
+            background: #e5e5ea;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <button class="demo-button" onclick="showModal()">Show Close Tabs Dialog</button>
+        <p style="color: #666; font-size: 14px;">Click the button above to see the popup in action</p>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal-dialog" onclick="event.stopPropagation()">
+            <h2 class="modal-title">SELECT YES OR NO</h2>
+            <p class="modal-message">
+                <span class="tabs-count"></span> Do you want to close the window
+            </p>
+            
+            <div class="checkbox-container">
+                <div class="checkbox-wrapper" onclick="toggleCheckbox()">
+                    <div class="checkbox" id="dontAskCheckbox"></div>
+                    <span class="checkbox-label">Don't ask me again</span>
+                </div>
+            </div>
+            
+            <div class="button-container">
+                <button class="modal-button primary-button" onclick="closeAllTabs()">Yes</button>
+                <button class="modal-button secondary-button" onclick="closeModal()">No</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let dontAskAgain = false;
+
+        function showModal() {
+            const modal = document.getElementById('modalOverlay');
+            modal.classList.add('show');
+        }
+
+        function closeModal(event) {
+            // Only close if clicking the overlay, not the dialog itself
+            if (event && event.target !== event.currentTarget) return;
+            
+            const modal = document.getElementById('modalOverlay');
+            modal.classList.remove('show');
+        }
+
+        function toggleCheckbox() {
+            const checkbox = document.getElementById('dontAskCheckbox');
+            dontAskAgain = !dontAskAgain;
+            
+            if (dontAskAgain) {
+                checkbox.classList.add('checked');
+            } else {
+                checkbox.classList.remove('checked');
+            }
+        }
+
+        function closeAllTabs() {
+            if (dontAskAgain) {
+                alert('Settings saved: Won\'t ask again when closing tabs');
+            } else {
+                alert('All tabs would be closed');
+            }
+            closeModal();
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
