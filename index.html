@@ -3,258 +3,892 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Close All Tabs Popup</title>
+    <title>Sample Project - Where Vision Becomes Venture</title>
     <style>
-        body {
+        * {
             margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .demo-container {
-            text-align: center;
-            padding: 20px;
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
         }
 
-        .demo-button {
-            background: #007AFF;
+        /* Header */
+        .header {
+            background: #4a4a7a;
             color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-bottom: 20px;
+            padding: 1rem 0;
+            position: relative;
+            overflow: hidden;
         }
 
-        .demo-button:hover {
-            background: #0056CC;
-        }
-
-        /* Modal Overlay */
-        .modal-overlay {
-            position: fixed;
+        .header::before {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.3;
         }
 
-        .modal-overlay.show {
+        .nav {
             display: flex;
-        }
-
-        /* Modal Dialog */
-        .modal-dialog {
-            background: white;
-            border-radius: 12px;
-            padding: 24px;
-            min-width: 400px;
-            max-width: 500px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            text-align: center;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
             position: relative;
-            animation: modalSlideIn 0.2s ease-out;
+            z-index: 2;
         }
 
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9) translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-
-        .modal-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1d1d1f;
-            margin: 0 0 16px 0;
-        }
-
-        .modal-message {
-            font-size: 14px;
-            color: #424245;
-            margin: 0 0 20px 0;
-            line-height: 1.4;
-        }
-
-        .tabs-count {
-            font-weight: 600;
-            color: #1d1d1f;
-        }
-
-        /* Checkbox Container */
-        .checkbox-container {
+        .logo {
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin: 20px 0 24px 0;
+            gap: 0.5rem;
+            font-weight: bold;
+            font-size: 1.1rem;
         }
 
-        .checkbox-wrapper {
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: #ff6b35;
+            border-radius: 50%;
+        }
+
+        .nav-links {
             display: flex;
-            align-items: center;
-            cursor: pointer;
-            user-select: none;
+            gap: 2rem;
+            list-style: none;
         }
 
-        .checkbox {
-            width: 18px;
-            height: 18px;
-            border: 2px solid #c6c6c8;
-            border-radius: 4px;
-            margin-right: 8px;
-            position: relative;
-            background: white;
-            cursor: pointer;
-        }
-
-        .checkbox.checked {
-            background: #007AFF;
-            border-color: #007AFF;
-        }
-
-        .checkbox.checked::after {
-            content: '✓';
-            position: absolute;
-            top: -2px;
-            left: 2px;
+        .nav-links a {
             color: white;
-            font-size: 14px;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .contact-btn {
+            background: #ff6b35;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            color: white;
             font-weight: bold;
         }
 
-        .checkbox-label {
-            font-size: 14px;
-            color: #424245;
-            cursor: pointer;
+        /* Hero Section */
+        .hero {
+            background: #4a4a7a;
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Button Container */
-        .button-container {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.3;
         }
 
-        .modal-button {
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            border: none;
-            min-width: 80px;
-            transition: all 0.2s ease;
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
         }
 
-        .primary-button {
-            background: #007AFF;
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .hero .highlight {
+            color: #ff6b35;
+            font-weight: bold;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 1rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Philosophy Section */
+        .philosophy {
+            padding: 4rem 2rem;
+            background: #f8f8f8;
+        }
+
+        .philosophy-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .philosophy-text {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .section-tag {
+            background: #ff6b35;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .philosophy h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .philosophy .highlight {
+            color: #ff6b35;
+        }
+
+        .philosophy p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .philosophy-image {
+            text-align: center;
+        }
+
+        .chart-container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+            text-align: center;
+        }
+
+        .chart-image {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+        }
+
+        /* Brands Section */
+        .brands {
+            padding: 4rem 2rem;
+            background: #e8e4f0;
+        }
+
+        .brands-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .brands-tag {
+            background: #8b5a9f;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .brands h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .brands-subtitle {
+            color: #666;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .brands-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .brand-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: left;
+        }
+
+        .brand-card.purple {
+            background: linear-gradient(135deg, #8b5a9f, #6a4c93);
             color: white;
         }
 
-        .primary-button:hover {
-            background: #0056CC;
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
         }
 
-        .secondary-button {
-            background: #f2f2f7;
-            color: #007AFF;
-            border: 1px solid #d1d1d6;
+        .brand-icon {
+            width: 24px;
+            height: 24px;
+            background: #ff6b35;
+            border-radius: 50%;
         }
 
-        .secondary-button:hover {
-            background: #e5e5ea;
+        .brand-card p {
+            font-size: 0.9rem;
+            line-height: 1.6;
         }
 
-        .hidden {
-            display: none;
+        .explore-btn {
+            background: #ff6b35;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .explore-btn:hover {
+            background: #e55a2b;
+        }
+
+        /* Art Section */
+        .art-section {
+            padding: 4rem 2rem;
+            background: #f8f8f8;
+        }
+
+        .art-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .art-image {
+            text-align: center;
+        }
+
+        .person-chart {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+            text-align: center;
+        }
+
+        .person-chart-image {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+        }
+
+        .art-text {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .art-text .section-tag {
+            background: #ff6b35;
+        }
+
+        .art-text h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .art-text .highlight {
+            color: #ff6b35;
+        }
+
+        .art-text p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .art-text .question {
+            color: #ff6b35;
+            font-style: italic;
+            margin-top: 1rem;
+        }
+
+        /* Vision Section */
+        .vision {
+            padding: 4rem 2rem;
+            background: #e8e4f0;
+            text-align: center;
+        }
+
+        .vision-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .vision-tag {
+            background: #8b5a9f;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        .vision h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .vision p {
+            color: #666;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .vision-illustration {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 3rem 0;
+            gap: 2rem;
+        }
+
+        .vision-person-image {
+            width: 150px;
+            height: auto;
+        }
+
+        .vision-mountain-image {
+            width: 200px;
+            height: auto;
+        }
+
+        .learn-more-btn {
+            background: #ff6b35;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .learn-more-btn:hover {
+            background: #e55a2b;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2a2a4a;
+            color: white;
+            padding: 2rem 0 1rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .footer-logo-icon {
+            width: 32px;
+            height: 32px;
+            background: #ff6b35;
+            border-radius: 50%;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .footer-bottom-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .philosophy-content,
+            .art-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .brands-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .vision-illustration {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .footer-nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="demo-container">
-        <button class="demo-button" onclick="showModal()">Show Close Tabs Dialog</button>
-        <p style="color: #666; font-size: 14px;">Click the button above to see the popup in action</p>
-    </div>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">
+                <div class="logo-icon"></div>
+                Sample Project
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#brands">Our Brands</a></li>
+                <li><a href="#what-we-do">What We Do</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="#careers">Careers</a></li>
+            </ul>
+            <a href="#contact" class="contact-btn">📧</a>
+        </nav>
+    </header>
 
-    <!-- Modal Overlay -->
-    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
-        <div class="modal-dialog" onclick="event.stopPropagation()">
-            <h2 class="modal-title">SELECT YES OR NO</h2>
-            <p class="modal-message">
-                <span class="tabs-count"></span> Do you want to close the window
-            </p>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Where <span class="highlight">Vision</span> Becomes Venture</h1>
+            <p>Sample Project builds ventures independent brands that do more than connect they connect, inspire, and redefine the emotional and cultural fabric of everyday life</p>
+            <a href="#vision" class="cta-btn">Discover Our Vision</a>
+        </div>
+    </section>
+
+    <!-- Philosophy Section -->
+    <section class="philosophy">
+        <div class="philosophy-content">
+            <div class="philosophy-text">
+                <div class="section-tag">What We Are</div>
+                <h2>Not a Product. Not a Platform. <span class="highlight">A Philosophy</span></h2>
+                <p>Sample Project is the invisible architecture behind transformative brand authoring ideas, people, and systems that create meaningful impact across diverse industries, from wellness to culture, from technology to aesthetics we operate at the intersection of feeling and future</p>
+            </div>
+            <div class="philosophy-image">
+                <div class="chart-container">
+                    <svg class="chart-image" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Man in purple suit -->
+                        <g>
+                            <!-- Body -->
+                            <rect x="100" y="140" width="80" height="100" fill="#8b5a9f" rx="5"/>
+                            <!-- Head -->
+                            <circle cx="140" cy="120" r="25" fill="#f4c2a1"/>
+                            <!-- Hair -->
+                            <path d="M115 105 Q120 90 140 95 Q160 90 165 105 Q160 100 140 105 Q120 100 115 105" fill="#2c3e50"/>
+                            <!-- Shirt -->
+                            <rect x="110" y="140" width="60" height="80" fill="white"/>
+                            <!-- Tie -->
+                            <rect x="135" y="145" width="10" height="40" fill="#34495e"/>
+                            <!-- Arms -->
+                            <rect x="80" y="145" width="20" height="60" fill="#8b5a9f" rx="10"/>
+                            <rect x="180" y="145" width="20" height="60" fill="#8b5a9f" rx="10"/>
+                            <!-- Hand pointing -->
+                            <circle cx="205" cy="175" r="8" fill="#f4c2a1"/>
+                            <rect x="200" y="170" width="15" height="4" fill="#2c3e50"/>
+                            <!-- Legs -->
+                            <rect x="115" y="240" width="20" height="50" fill="#2c3e50"/>
+                            <rect x="145" y="240" width="20" height="50" fill="#2c3e50"/>
+                        </g>
+                        
+                        <!-- Rocket -->
+                        <g transform="translate(280,80)">
+                            <ellipse cx="20" cy="30" rx="15" ry="40" fill="#ecf0f1"/>
+                            <ellipse cx="20" cy="25" rx="12" ry="30" fill="white"/>
+                            <path d="M20 5 L30 0 L30 10 Z" fill="#e74c3c"/>
+                            <circle cx="20" cy="20" r="8" fill="#ecf0f1" stroke="#bdc3c7" stroke-width="2"/>
+                            <rect x="18" y="18" width="4" height="4" fill="#34495e"/>
+                            <!-- Fins -->
+                            <path d="M5 45 L15 70 L25 45" fill="#e74c3c"/>
+                            <path d="M35 45 L25 70 L15 45" fill="#e74c3c"/>
+                            <!-- Exhaust -->
+                            <ellipse cx="20" cy="80" rx="8" ry="15" fill="#f39c12" opacity="0.7"/>
+                        </g>
+                        
+                        <!-- Chart bars -->
+                        <g transform="translate(50,200)">
+                            <rect x="0" y="50" width="25" height="40" fill="#8b5a9f"/>
+                            <rect x="30" y="35" width="25" height="55" fill="#8b5a9f"/>
+                            <rect x="60" y="20" width="25" height="70" fill="#8b5a9f"/>
+                            <rect x="90" y="10" width="25" height="80" fill="#8b5a9f"/>
+                            <rect x="120" y="0" width="25" height="90" fill="#8b5a9f"/>
+                        </g>
+                        
+                        <!-- Background dots -->
+                        <circle cx="250" cy="200" r="8" fill="#f39c12" opacity="0.3"/>
+                        <circle cx="300" cy="220" r="12" fill="#e74c3c" opacity="0.3"/>
+                        <circle cx="320" cy="180" r="6" fill="#8b5a9f" opacity="0.3"/>
+                        <circle cx="60" cy="50" r="10" fill="#f39c12" opacity="0.3"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brands Section -->
+    <section class="brands">
+        <div class="brands-content">
+            <div class="brands-tag">Our Brands</div>
+            <h2>Our Universe of Brands</h2>
+            <p class="brands-subtitle">We don't follow trends. We create the conditions for timelessness. Explore the growing constellation of ventures born from our ethos</p>
             
-            <div class="checkbox-container">
-                <div class="checkbox-wrapper" onclick="toggleCheckbox()">
-                    <div class="checkbox" id="dontAskCheckbox"></div>
-                    <span class="checkbox-label">Don't ask me again</span>
+            <div class="brands-grid">
+                <div class="brand-card">
+                    <div class="brand-logo">
+                        <div class="brand-icon"></div>
+                        Sample Project
+                    </div>
+                    <p>We don't follow trends. We create the conditions for timelessness. Explore the growing constellation of ventures born from our ethos</p>
+                </div>
+                <div class="brand-card">
+                    <div class="brand-logo">
+                        <div class="brand-icon"></div>
+                        Sample Project
+                    </div>
+                    <p>We don't follow trends. We create the conditions for timelessness. Explore the growing constellation of ventures born from our ethos</p>
+                </div>
+                <div class="brand-card purple">
+                    <div class="brand-logo">
+                        <div class="brand-icon"></div>
+                        Sample Project
+                    </div>
+                    <p>We don't follow trends. We create the conditions for timelessness. Explore the growing constellation of ventures born from our ethos</p>
+                </div>
+                <div class="brand-card">
+                    <div class="brand-logo">
+                        <div class="brand-icon"></div>
+                        Sample Project
+                    </div>
+                    <p>We don't follow trends. We create the conditions for timelessness. Explore the growing constellation of ventures born from our ethos</p>
+                </div>
+                <div class="brand-card">
+                    <div class="brand-logo">
+                        <div class="brand-icon"></div>
+                        Sample Project
+                    </div>
+                    <p>We don't follow trends. We create the conditions for timelessness. Explore the growing constellation of ventures born from our ethos</p>
+                </div>
+                <div class="brand-card">
+                    <div class="brand-logo">
+                        <div class="brand-icon"></div>
+                        Sample Project
+                    </div>
+                    <p>We don't follow trends. We create the conditions for timelessness. Explore the growing constellation of ventures born from our ethos</p>
                 </div>
             </div>
             
-            <div class="button-container">
-                <button class="modal-button primary-button" onclick="closeAllTabs()">Yes</button>
-                <button class="modal-button secondary-button" onclick="closeModal()">No</button>
+            <button class="explore-btn">Explore All</button>
+        </div>
+    </section>
+
+    <!-- Art Section -->
+    <section class="art-section">
+        <div class="art-content">
+            <div class="art-image">
+                <div class="person-chart">
+                    <svg class="person-chart-image" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Woman in orange suit -->
+                        <g>
+                            <!-- Body -->
+                            <rect x="120" y="160" width="80" height="100" fill="#e67e22" rx="5"/>
+                            <!-- Head -->
+                            <circle cx="160" cy="140" r="25" fill="#f4c2a1"/>
+                            <!-- Hair -->
+                            <path d="M135 125 Q140 110 160 115 Q180 110 185 125 Q180 120 160 125 Q140 120 135 125" fill="#2c3e50"/>
+                            <path d="M130 120 Q135 115 145 120 Q140 125 135 125" fill="#2c3e50"/>
+                            <path d="M175 120 Q180 115 190 120 Q185 125 180 125" fill="#2c3e50"/>
+                            <!-- Shirt -->
+                            <rect x="130" y="160" width="60" height="80" fill="white"/>
+                            <!-- Arms -->
+                            <rect x="100" y="165" width="20" height="60" fill="#e67e22" rx="10"/>
+                            <rect x="200" y="165" width="20" height="60" fill="#e67e22" rx="10"/>
+                            <!-- Hands on laptop -->
+                            <ellipse cx="115" cy="200" rx="8" ry="6" fill="#f4c2a1"/>
+                            <ellipse cx="205" cy="200" rx="8" ry="6" fill="#f4c2a1"/>
+                            <!-- Legs -->
+                            <rect x="135" y="260" width="20" height="35" fill="#2c3e50"/>
+                            <rect x="165" y="260" width="20" height="35" fill="#2c3e50"/>
+                        </g>
+                        
+                        <!-- Laptop -->
+                        <g transform="translate(80,190)">
+                            <rect x="0" y="20" width="160" height="80" fill="#bdc3c7" rx="5"/>
+                            <rect x="5" y="25" width="150" height="70" fill="#34495e" rx="3"/>
+                            <rect x="10" y="30" width="140" height="60" fill="#ecf0f1"/>
+                        </g>
+                        
+                        <!-- Speech bubble with chart -->
+                        <g transform="translate(260,80)">
+                            <rect x="0" y="0" width="120" height="80" fill="white" stroke="#bdc3c7" stroke-width="2" rx="10"/>
+                            <path d="M20 80 L30 95 L40 80" fill="white" stroke="#bdc3c7" stroke-width="2"/>
+                            
+                            <!-- Chart inside bubble -->
+                            <g transform="translate(10,10)">
+                                <!-- Arrow -->
+                                <path d="M10 45 L80 15" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                <defs>
+                                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                        <polygon points="0 0, 10 3.5, 0 7" fill="#2c3e50"/>
+                                    </marker>
+                                </defs>
+                                
+                                <!-- First chart (smaller) -->
+                                <g transform="translate(5,25)">
+                                    <rect x="0" y="15" width="8" height="10" fill="#e67e22"/>
+                                    <rect x="10" y="10" width="8" height="15" fill="#e67e22"/>
+                                    <rect x="20" y="20" width="8" height="5" fill="#e67e22"/>
+                                    <rect x="30" y="5" width="8" height="20" fill="#e67e22"/>
+                                </g>
+                                
+                                <!-- Second chart (larger) -->
+                                <g transform="translate(55,15)">
+                                    <rect x="0" y="20" width="8" height="15" fill="#e67e22"/>
+                                    <rect x="10" y="10" width="8" height="25" fill="#e67e22"/>
+                                    <rect x="20" y="15" width="8" height="20" fill="#e67e22"/>
+                                    <rect x="30" y="5" width="8" height="30" fill="#e67e22"/>
+                                    <rect x="40" y="0" width="8" height="35" fill="#e67e22"/>
+                                </g>
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+            <div class="art-text">
+                <div class="section-tag">The Philosophy</div>
+                <h2>What If Business Could <span class="highlight">Feel Like Art?</span></h2>
+                <p>At Sample Project, we believe brands can be portals not just to profit, but to purpose, transformation, and collective uplift. We obsess over craft, intuition, resonance, and cultural timing</p>
+                <p>Every brand we build begins with a single question:</p>
+                <p class="question">Does this make the world feel more alive?</p>
             </div>
         </div>
-    </div>
+    </section>
 
-    <script>
-        let dontAskAgain = false;
-
-        function showModal() {
-            const modal = document.getElementById('modalOverlay');
-            modal.classList.add('show');
-        }
-
-        function closeModal(event) {
-            // Only close if clicking the overlay, not the dialog itself
-            if (event && event.target !== event.currentTarget) return;
+    <!-- Vision Section -->
+    <section class="vision">
+        <div class="vision-content">
+            <div class="vision-tag">The Vision</div>
+            <h2>Our Vision Is Not to Own the Future. It's to Inspire It</h2>
+            <p>Only deep ideas that matter, not shallow ones that people in a world driven by urgency, we build with intention</p>
             
-            const modal = document.getElementById('modalOverlay');
-            modal.classList.remove('show');
-        }
+            <div class="vision-illustration">
+                <svg class="vision-person-image" viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Person with telescope -->
+                    <g>
+                        <!-- Body -->
+                        <rect x="75" y="130" width="50" height="70" fill="#8b5a9f" rx="5"/>
+                        <!-- Head -->
+                        <circle cx="100" cy="110" r="20" fill="#f4c2a1"/>
+                        <!-- Hair -->
+                        <path d="M80 95 Q85 85 100 88 Q115 85 120 95 Q115 90 100 93 Q85 90 80 95" fill="#2c3e50"/>
+                        <!-- Arms -->
+                        <rect x="55" y="135" width="15" height="45" fill="#8b5a9f" rx="7"/>
+                        <rect x="130" y="135" width="15" height="45" fill="#8b5a9f" rx="7"/>
+                        <!-- Telescope -->
+                        <g transform="rotate(-10 150 140)">
+                            <rect x="140" y="135" width="40" height="8" fill="#34495e" rx="4"/>
+                            <rect x="175" y="138" width="15" height="2" fill="#2c3e50"/>
+                            <circle cx="145" cy="139" r="6" fill="#ecf0f1" stroke="#34495e" stroke-width="1"/>
+                        </g>
+                        <!-- Hand -->
+                        <circle cx="148" cy="145" r="6" fill="#f4c2a1"/>
+                        <!-- Legs -->
+                        <rect x="85" y="200" width="15" height="40" fill="#2c3e50"/>
+                        <rect x="105" y="200" width="15" height="40" fill="#2c3e50"/>
+                        <!-- Ground/cliff -->
+                        <path d="M0 240 Q50 235 100 240 Q150 235 200 240 L200 250 L0 250 Z" fill="#f4a261"/>
+                    </g>
+                </svg>
 
-        function toggleCheckbox() {
-            const checkbox = document.getElementById('dontAskCheckbox');
-            dontAskAgain = !dontAskAgain;
+                <svg class="vision-mountain-image" viewBox="0 0 300 250" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Mountains with flag -->
+                    <g>
+                        <!-- Background mountain -->
+                        <path d="M50 200 L100 120 L150 200 Z" fill="#bdc3c7"/>
+                        <path d="M100 120 L125 150 L150 200 L120 200 Z" fill="#95a5a6"/>
+                        
+                        <!-- Main mountain -->
+                        <path d="M120 200 L170 100 L220 200 Z" fill="#bdc3c7"/>
+                        <path d="M170 100 L195 140 L220 200 L190 200 Z" fill="#95a5a6"/>
+                        
+                        <!-- Right mountain -->
+                        <path d="M200 200 L240 130 L280 200 Z" fill="#bdc3c7"/>
+                        <path d="M240 130 L260 160 L280 200 L250 200 Z" fill="#95a5a6"/>
+                        
+                        <!-- Flag on main peak -->
+                        <g transform="translate(170,100)">
+                            <!-- Flagpole -->
+                            <rect x="0" y="0" width="2" height="30" fill="#34495e"/>
+                            <!-- Flag -->
+                            <rect x="2" y="0" width="25" height="15" fill="#8b5a9f"/>
+                            <path d="M27 0 L32 7.5 L27 15 Z" fill="#663399"/>
+                            <!-- Flag shine lines -->
+                            <g stroke="white" stroke-width="0.5" opacity="0.7">
+                                <line x1="-5" y1="-5" x2="0" y2="0"/>
+                                <line x1="-3" y1="-8" x2="2" y2="-3"/>
+                                <line x1="-8" y1="-3" x2="-3" y2="2"/>
+                                <line x1="-6" y1="-10" x2="-1" y2="-5"/>
+                            </g>
+                        </g>
+                        
+                        <!-- Snow caps -->
+                        <path d="M160 110 L170 100 L180 110 Z" fill="white"/>
+                        <path d="M230 140 L240 130 L250 140 Z" fill="white"/>
+                        <path d="M90 130 L100 120 L110 130 Z" fill="white"/>
+                    </g>
+                </svg>
+            </div>
             
-            if (dontAskAgain) {
-                checkbox.classList.add('checked');
-            } else {
-                checkbox.classList.remove('checked');
-            }
-        }
+            <a href="#about" class="learn-more-btn">Learn More About Us</a>
+        </div>
+    </section>
 
-        function closeAllTabs() {
-            if (dontAskAgain) {
-                alert('Settings saved: Won\'t ask again when closing tabs');
-            } else {
-                alert('All tabs would be closed');
-            }
-            closeModal();
-        }
-
-        // Close modal with Escape key
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                closeModal();
-            }
-        });
-    </script>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-nav">
+                <div class="footer-logo">
+                    <div class="footer-logo-icon"></div>
+                    Sample Project
+                </div>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#brands">Our Brands</a></li>
+                    <li><a href="#what-we-do">What We Do</a></li>
+                    <li><a href="#team">Team</a></li>
+                    <li><a href="#careers">Careers</a></li>
+                </ul>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Sample Project. All rights reserved</p>
+                <div class="footer-bottom-links">
+                    <a href="#terms">Term of Use</a>
+                    <a href="#privacy">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
